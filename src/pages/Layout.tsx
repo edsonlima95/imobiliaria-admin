@@ -1,7 +1,9 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import Aside from "../components/Aside"
 import { NavMenuContext } from "../contexts/NavMenuContext"
 import { List, Gear } from 'phosphor-react'
+import Router from 'next/router'
+import { getCookie } from "cookies-next"
 
 type LayoutProps = {
     children: React.ReactNode
@@ -11,7 +13,13 @@ function Layout({ children }: LayoutProps) {
 
     const { isNavOpen, menuToggle } = useContext(NavMenuContext)
 
+    useEffect(() => {
+
+    }, [])
+
+
     return (
+
         <>
             <Aside />
             <main className={`ml-auto ${isNavOpen ? 'w-[81%]' : 'w-full'} duration-700 `}>
