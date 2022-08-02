@@ -35,13 +35,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         setUser(user)
     }
 
-    async function checkToken() {
-       await api.get(`/auth/checkToken`)
-    }
-
     useEffect(() => {
         if (token) {
-            checkToken()
             getProfile(Number(id))
         }
     }, [])

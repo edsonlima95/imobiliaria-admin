@@ -1,20 +1,22 @@
 import { getCookie } from "cookies-next"
 import { GetServerSideProps } from "next"
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useRef } from "react"
-import { useForm } from "react-hook-form"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 import { Input } from "../../../components/Form/Input"
 import { Select } from "../../../components/Form/Select"
 import { Textarea } from "../../../components/Form/TextArea"
 import { CheckBox } from "../../../components/Form/CheckBox"
+import { api } from "../../../services/axios"
+import { UserContext } from "../../../contexts/UserContext"
+import { toast } from "react-toastify"
+import { currency } from '../../../helpers/maskInputCurrency'
+import { formatCurrency, formatPtBr } from "../../../helpers/formatNumber"
 import Layout from "../../Layout"
 import BreadCrumb from "../../../components/Breadcrumb"
 import Label from "../../../components/Form/Label"
 import FieldSet from "../../../components/Form/FieldSet"
 import ErrorMessage from "../../../components/Message"
-import { api } from "../../../services/axios"
-import { UserContext } from "../../../contexts/UserContext"
-import { toast } from "react-toastify"
 
 type Data = {
     id?: number,
@@ -22,25 +24,25 @@ type Data = {
     user_id: number,
     description: string,
     address: string,
-    number: number,
+    number: number | null,
     complement?: string,
     neighborhood: string,
     city: string,
     state: string,
     status: boolean,
     type: string,
-    price: number,
-    rental_price: number,
-    file: [{}],
+    price: string | null,
+    rental_price: string | null,
+    file: [{}] | null,
 
-    area: number,
-    garage: number,
-    bedroom: number,
-    bathroom: number,
-    kitchen: number,
-    living_room: number,
-    dining_room: number,
-    suites: number,
+    area: number | null,
+    garage: number | null,
+    bedroom: number | null,
+    bathroom: number | null,
+    kitchen: number | null,
+    living_room: number | null,
+    dining_room: number | null,
+    suites: number | null,
 
     pool: boolean,
     gym: boolean,
@@ -61,9 +63,13 @@ function Create() {
 
     const { user } = useContext(UserContext)
     const id = params?.[0] ? params[0] : undefined
-    const { handleSubmit, register, control, setError, setValue, getValues, reset, formState: { errors } } = useForm<Data>()
+    const { handleSubmit, register, control, setError, setValue, reset, formState: { errors } } = useForm<Data>()
+
+
 
     useEffect(() => {
+
+        resetFields()
 
         if (id) {
 
@@ -84,8 +90,8 @@ function Create() {
 
                 setValue("status", imobil.status)
                 setValue("type", imobil.type)
-                setValue("price", imobil.price)
-                setValue("rental_price", imobil.rental_price)
+                setValue("price", formatPtBr(imobil.price))
+                setValue("rental_price", formatPtBr(imobil.rental_price))
 
                 setValue("area", imobil.area)
                 setValue("garage", imobil.garage)
@@ -113,17 +119,24 @@ function Create() {
             })
         }
 
-    }, [])
+    /**
+     * Limpa os campos após mudar a rota, ou seja se o usuário estiver no formulario
+     * de edição com os campos setos se nao limpar os campos ao mudar a rota para criar
+     * os campos permaneceram com os valores vindo la da edição no formulario
+     */
+    }, [router.query.params])
 
-    async function onSubmit() {
+    async function onSubmit(teste: Data) {
 
         const data = new FormData(form.current as HTMLFormElement)
+
+        data.set("price", formatCurrency(teste.price as string))
+        data.set("rental_price", formatCurrency(teste.rental_price as string))
 
         if (data.get("id")) {
             update(data)
         } else {
-            console.log(data.get("price"))
-            // create(data)
+            create(data)
         }
 
     }
@@ -131,8 +144,9 @@ function Create() {
     async function create(data: FormData) {
 
         try {
-            await api.post("/imobils", data)
-
+            const response = await api.post("/imobils", data)
+            toast.success(response.data.message)
+            resetFields()
         } catch (err: any) {
 
             const { errors } = err.response.data
@@ -162,12 +176,60 @@ function Create() {
 
     }
 
+    //Forma o campo preço
+    function setPrice(e: React.ChangeEvent<HTMLInputElement>) {
+        setValue('price', e.target.value)
+    }
+
+    //Formata o campo preço de locação
+    function setRentalPrice(e: React.ChangeEvent<HTMLInputElement>) {
+        setValue('rental_price', e.target.value)
+    }
+
+    //Reseta os campos
+    function resetFields() {
+        reset({
+            title: "",
+            user_id: undefined,
+            description: "",
+            address: "",
+            number: null,
+            complement: "",
+            neighborhood: "",
+            city: "",
+            state: "",
+            status: false,
+            type: "",
+            price: null,
+            rental_price: null,
+            file: null,
+            area: null,
+            garage: null,
+            bedroom: null,
+            bathroom: null,
+            kitchen: null,
+            living_room: null,
+            dining_room: null,
+            suites: null,
+            pool: false,
+            gym: false,
+            closet: false,
+            furnished_kitchen: false,
+            backyard: false,
+            garden: false,
+            deck: false,
+            american_kitchen: false,
+            grill: false
+        })
+    }
+
     return (
         <Layout>
+
             <div className="p-5">
                 <BreadCrumb title="Lista" link="imobil" active="Cadastro" />
 
-                <form ref={form} onSubmit={handleSubmit(onSubmit)}>
+                <form ref={form} onSubmit={handleSubmit(onSubmit)} className="bg-white p-5 rounded my-4">
 
                     <input type="hidden" name="user_id" value={user?.id} />
                     <input type="hidden"  {...register("id")} />
@@ -216,12 +278,22 @@ function Create() {
                             </div>
                             <div className="mb-3 lg:w-6/12">
                                 <Label title="Preço de venda" label="price" />
-                                <Input type="text" {...register('price')} id="price" className="money" placeholder="Digite o preço de compra" />
+                                <Controller
+                                    name="price"
+                                    control={control}
+                                    render={({ field }) => <Input type="text" {...register("price")} onChange={(e) => setPrice(currency(e))} id="price" placeholder="Digite o preço de compra" />}
+                                />
+
                                 <ErrorMessage error={errors.price?.message} />
                             </div>
                             <div className="mb-3 lg:w-6/12">
                                 <Label title="Preço de locação" label="rental_price" />
-                                <Input type="text" {...register('rental_price')} id="rental_price" placeholder="Digite o preço de locação" />
+                                <Controller
+                                    name="rental_price"
+                                    control={control}
+                                    render={({ field }) => <Input type="text" {...register("rental_price")} onChange={(e) => setRentalPrice(currency(e))} id="rental_price" placeholder="Digite o preço de compra" />}
+                                />
+
                                 <ErrorMessage error={errors.rental_price?.message} />
                             </div>
                         </div>

@@ -3,7 +3,8 @@ import Aside from "../components/Aside"
 import { NavMenuContext } from "../contexts/NavMenuContext"
 import { List, Gear } from 'phosphor-react'
 import Router from 'next/router'
-import { getCookie } from "cookies-next"
+import { getCookie, removeCookies } from "cookies-next"
+import { api } from "../services/axios"
 
 type LayoutProps = {
     children: React.ReactNode
@@ -14,9 +15,8 @@ function Layout({ children }: LayoutProps) {
     const { isNavOpen, menuToggle } = useContext(NavMenuContext)
 
     useEffect(() => {
-
+        api.get("/auth/checkToken")
     }, [])
-
 
     return (
 

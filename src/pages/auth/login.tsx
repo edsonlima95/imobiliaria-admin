@@ -101,15 +101,15 @@ function Login() {
 
                 {isLogin && (
                     <div>
-                        <input type="text" className="w-full mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("name")} placeholder="Digite seu nome" />
+                        <input type="text" className="w-full px-3 mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("name")} placeholder="Digite seu nome" />
                     </div>
                 )}
 
                 <div>
-                    <input type="email" className="w-full mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("email")} placeholder="Digite seu e-mail" />
+                    <input type="email" className="w-full px-3 mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("email")} placeholder="Digite seu e-mail" />
                 </div>
                 <div>
-                    <input type="password" className="w-full mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("password")} placeholder="Digite uma senha" />
+                    <input type="password" className="w-full px-3 mb-4 rounded-lg h-12 border-gray-300 border-2" {...register("password")} placeholder="Digite uma senha" />
                 </div>
                 <span className="underline cursor-pointer text-gray-800 mb-4 block" onClick={signOrLogin}>{!isLogin ? 'Cadastre-se' : 'Logar'}</span>
                 <button type="submit" className="w-full bg-green-600 h-12 rounded-lg text-white text-lg font-bold uppercase">Cadastrar</button>

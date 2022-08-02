@@ -5,8 +5,8 @@ import { UserContextProvider } from '../contexts/UserContext'
 import '../styles/global.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
 
+function MyApp({ Component, pageProps }: AppProps) {
 
 
   return (
