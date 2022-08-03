@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react"
-import Aside from "../components/Aside"
 import { NavMenuContext } from "../contexts/NavMenuContext"
 import { List, Gear } from 'phosphor-react'
-import Router from 'next/router'
-import { getCookie, removeCookies } from "cookies-next"
 import { api } from "../services/axios"
+import Aside from "../components/Aside"
+import { getCookie } from "cookies-next"
+import { UserContext } from "../contexts/UserContext"
 
 type LayoutProps = {
     children: React.ReactNode
@@ -13,10 +13,29 @@ type LayoutProps = {
 function Layout({ children }: LayoutProps) {
 
     const { isNavOpen, menuToggle } = useContext(NavMenuContext)
+    const { setProfile, user } = useContext(UserContext)
+
+    const token = getCookie("imobil.token")
+    const id = getCookie("imobil.user_id")
 
     useEffect(() => {
-        api.get("/auth/checkToken")
+        checkToken()
+
+        if (token) {
+            getPorfile()
+        }
+
     }, [])
+
+    async function checkToken() {
+        await api.get("/auth/checkToken")
+    }
+
+    async function getPorfile() {
+        const response = await api.get(`/users?user_id=${id}`)
+        const { user } = response.data
+        setProfile(user)
+    }
 
     return (
 

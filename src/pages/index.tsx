@@ -1,17 +1,10 @@
 import { getCookie } from "cookies-next"
 import { GetServerSideProps } from "next"
-import { useContext, useEffect } from "react"
-import { UserContext } from "../contexts/UserContext"
 import Layout from "./Layout"
-import $ from 'jquery'
 
 function Home() {
 
-  const { user } = useContext(UserContext)
  
-  
-
-
   return (
     <>
       <Layout>

@@ -1,6 +1,6 @@
 
 export function formatCurrency(params: string) {
-    const price = params.replaceAll(".","")
+    const price = params?.replaceAll(".","")
     let value = price?.replace(",", ".")
     return value
 }

@@ -1,4 +1,4 @@
-import {  useContext, useState } from "react"
+import { useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { api } from "../../services/axios"
 import { toast } from 'react-toastify'
@@ -17,7 +17,7 @@ type Data = {
 function Login() {
 
     const [isLogin, setIsLogin] = useState(false)
-    const {getProfile} = useContext(UserContext)
+    const { setProfile } = useContext(UserContext)
 
     const { handleSubmit, reset, register, formState: { errors } } = useForm<Data>()
 
@@ -54,32 +54,35 @@ function Login() {
     async function login(data: Data) {
         try {
             const response = await api.post("/auth/login", data)
-            
+
             const { user } = response.data
             const { token } = response.data
 
-            setCookie("imobil.token",token, {
+            setCookie("imobil.token", token, {
                 maxAge: 600 * 60 * 24 * 30,//30dias
                 path: "/"
             })
-            setCookie("imobil.user_id",user.id, {
+            setCookie("imobil.user_id", user.id, {
                 maxAge: 600 * 60 * 24 * 30,//30dias
                 path: "/"
             })
 
             api.defaults.headers['Authorization'] = `Bearer ${token}`
 
-            getProfile(user.id)
+            setProfile(user)
 
             Router.push("/")
 
-        } catch (e) {
+        } catch (e: any) {
 
-            const { errors } = e.response?.data
+            
+            const { errors } = e.response.data
 
-            for (const item of errors) {
-                console.log(item.field)
-                toast.error(item.message)
+            if(errors){
+
+                for (const item of errors) {
+                    toast.error(item.message)
+                }
             }
 
             toast.error(e.response?.data.message)
@@ -121,7 +124,7 @@ function Login() {
 
 export const getServerSideProps: GetServerSideProps = async (cxt) => {
 
-    const token = getCookie("imobil.token",cxt)
+    const token = getCookie("imobil.token", cxt)
 
     if (token) {
         return {

@@ -6,12 +6,13 @@ import { api } from "../services/axios";
 type UserProps = {
     id: number,
     name: string,
+    cover?: string,
     email: string,
 }
 
 type UserContextProps = {
     user: UserProps | undefined,
-    getProfile: (id: number) => Promise<void>
+    setProfile: (user: UserProps) => Promise<void>,
 }
 
 type UserContextProviderProps = {
@@ -24,25 +25,16 @@ export const UserContext = createContext({} as UserContextProps)
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
 
-    const token = getCookie("imobil.token")
-    const id = getCookie("imobil.user_id")
-
+    
     const [user, setUser] = useState<UserProps | undefined>(undefined)
 
-    async function getProfile(id: number) {
-        const response = await api.get(`/users?user_id=${id}`)
-        const { user } = response.data
+
+    async function setProfile(user: UserProps) {
         setUser(user)
     }
 
-    useEffect(() => {
-        if (token) {
-            getProfile(Number(id))
-        }
-    }, [])
-
     return (
-        <UserContext.Provider value={{ user, getProfile }}>
+        <UserContext.Provider value={{ user, setProfile }}>
             {children}
         </UserContext.Provider>
     )
