@@ -13,3 +13,7 @@ body {
 button[disabled] {
     @apply bg-gray-200
 }
+
+input[type="file"] {
+    height: 34px
+}

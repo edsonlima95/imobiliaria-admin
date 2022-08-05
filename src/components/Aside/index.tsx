@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowDown, CaretDown, CirclesThreePlus, House, HouseLine, ListDashes, PlusCircle, User } from 'phosphor-react'
+import { ArrowDown, CaretDown, CirclesThreePlus, DotsNine, House, HouseLine, ListDashes, PlusCircle, User } from 'phosphor-react'
 import { useContext } from 'react'
 import { NavMenuContext } from '../../contexts/NavMenuContext'
 import { UserContext } from '../../contexts/UserContext'
@@ -9,14 +9,14 @@ function Aside() {
 
   const { isNavOpen } = useContext(NavMenuContext)
   const { user } = useContext(UserContext)
-  
+
   return (
     <aside className={`w-[19%] ${isNavOpen ? 'left-0' : '-left-[19%]'} duration-700 bg-gray-800 fixed h-screen`}>
       <div className="flex items-center w-full h-16 border-b border-gray-600">
         <div className="relative w-2/12 mx-5">
           {user?.cover ? (
-                      <img className="w-10 h-10 rounded-full" src={`${process.env.NEXT_PUBLIC_API_URL}/profile/${user?.cover}`} alt="" />
-          ):(
+            <img className="w-10 h-10 rounded-full" src={`${process.env.NEXT_PUBLIC_API_URL}/profile/${user?.cover}`} alt="" />
+          ) : (
             <img className="w-10 h-10 rounded-full" src="/images/avatar.png" alt="" />
           )}
           <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white rounded-full"></span>
@@ -26,6 +26,13 @@ function Aside() {
       <nav className='h-full mt-5'>
 
         <ul className="relative">
+
+          <Link href="/">
+            <a className="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap hover:bg-gray-700 transition duration-300 ease-in-out cursor-pointer">
+              <DotsNine size={20} className="mr-2" />
+              <span className="text-lg">Início</span>
+            </a>
+          </Link>
 
           <li className="relative" id="sidenavEx1">
             <a className="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap hover:bg-gray-700 transition duration-300 ease-in-out cursor-pointer" data-mdb-ripple="true" data-mdb-ripple-color="dark" data-bs-toggle="collapse" data-bs-target="#imovel" aria-expanded="true" aria-controls="imovel">

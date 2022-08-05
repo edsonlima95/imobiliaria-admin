@@ -2,9 +2,9 @@ import { useContext, useEffect } from "react"
 import { NavMenuContext } from "../contexts/NavMenuContext"
 import { List, Gear } from 'phosphor-react'
 import { api } from "../services/axios"
-import Aside from "../components/Aside"
 import { getCookie } from "cookies-next"
 import { UserContext } from "../contexts/UserContext"
+import Aside from "../components/Aside"
 
 type LayoutProps = {
     children: React.ReactNode

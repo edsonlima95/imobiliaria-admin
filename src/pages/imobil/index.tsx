@@ -14,6 +14,7 @@ type ImobilProps = {
     title: string,
     address: string,
     neighborhood: string,
+    status: boolean,
     number: number,
     city: string,
     state: string,
@@ -30,7 +31,7 @@ type PaginatePoops = {
 
 function Home() {
 
-    const [imobils, setImobils] = useState<ImobilProps>()
+    const [imobils, setImobils] = useState<ImobilProps[]>()
     const [paginate, setPaginate] = useState({} as PaginatePoops)
 
     const user_id = getCookie("imobil.user_id")
@@ -73,7 +74,7 @@ function Home() {
         <Layout>
             <div className="overflow-x-auto relative p-5">
                 <BreadCrumb title="Cadastrar" link="imobil/create" active="Lista" />
-                {imobils?.length > 0 ? (
+                {imobils && imobils.length > 0 ? (
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-4">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -97,6 +98,9 @@ function Home() {
                                 </th>
                                 <th scope="col" className="py-3 px-6">
                                     Estado
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Status
                                 </th>
                                 <th scope="col" className="py-3 px-6">
                                     Ações
@@ -128,9 +132,15 @@ function Home() {
                                     <td className="py-4 px-6">
                                         {imobil.state}
                                     </td>
+                                    <td className="py-4 px-6">
+                                        {imobil.status === true ?
+                                            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Indisponível</span>
+                                            :
+                                            <span className="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Disponível</span>}
+                                    </td>
                                     <td>
                                         <Link href={`/imobil/create/${imobil.id}`}><a type="button" className="focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-0 font-medium rounded-full text-sm px-1.5 py-1.5 mr-2 mb-2"><Pencil size={20} /></a></Link>
-                                        <a type="button" onClick={() => destroy(imobil.id)} className="focus:outline-none text-white bg-red-500 hover:bg-red-600 cursor-pointer focus:ring-0 font-medium rounded-full text-sm px-1.5 py-1.5 mr-2 mb-2"><Trash size={20} /></a>
+                                        <a type="button" onClick={() => destroy(imobil.id as number)} className="focus:outline-none text-white bg-red-500 hover:bg-red-600 cursor-pointer focus:ring-0 font-medium rounded-full text-sm px-1.5 py-1.5 mr-2 mb-2"><Trash size={20} /></a>
                                     </td>
                                 </tr>
                             ))}

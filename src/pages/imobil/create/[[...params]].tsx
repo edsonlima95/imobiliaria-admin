@@ -22,6 +22,7 @@ type Data = {
     id?: number,
     title: string,
     user_id: number,
+    category_id: number,
     description: string,
     address: string,
     number: number | null,
@@ -55,11 +56,18 @@ type Data = {
     grill: boolean
 }
 
+type Category = {
+    id: number,
+    title: string,
+}
+
 function Create() {
 
     const router = useRouter()
     const { params } = router.query
     const form = useRef<HTMLFormElement>(null)
+
+    const [categories, setCategories] = useState<Category[]>()
 
     const { user } = useContext(UserContext)
     const id = params?.[0] ? params[0] : undefined
@@ -69,6 +77,7 @@ function Create() {
 
     useEffect(() => {
 
+        getCategories()
         resetFields()
 
         if (id) {
@@ -80,6 +89,7 @@ function Create() {
 
                 setValue("id", imobil.id)
                 setValue("title", imobil.title)
+                setValue("category_id", imobil.category_id)
                 setValue("description", imobil.description)
                 setValue("address", imobil.address)
                 setValue("number", imobil.number)
@@ -119,11 +129,11 @@ function Create() {
             })
         }
 
-    /**
-     * Limpa os campos após mudar a rota, ou seja se o usuário estiver no formulario
-     * de edição com os campos setos se nao limpar os campos ao mudar a rota para criar
-     * os campos permaneceram com os valores vindo la da edição no formulario
-     */
+        /**
+         * Limpa os campos após mudar a rota, ou seja se o usuário estiver no formulario
+         * de edição com os campos setos se nao limpar os campos ao mudar a rota para criar
+         * os campos permaneceram com os valores vindo la da edição no formulario
+         */
     }, [router.query.params])
 
     async function onSubmit(teste: Data) {
@@ -174,6 +184,14 @@ function Create() {
             }
         }
 
+    }
+
+    async function getCategories() {
+        api.get("/categories").then((response) => {
+            setCategories(response.data.categories)
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 
     //Forma o campo preço
@@ -241,18 +259,32 @@ function Create() {
                             {id && (<div className="mb-3 lg:w-2/12">
                                 <Label title="Situação" label="status" />
                                 <Select {...register('status')} id="status">
-                                    <option value={`${true}`} >Disponível</option>
-                                    <option value={`${false}`} >Não disponível</option>
+                                    <option value={`${false}`} >Disponível</option>
+                                    <option value={`${true}`} >Não disponível</option>
                                 </Select>
                                 <ErrorMessage error={errors.type?.message} />
                             </div>)}
 
+                            <div className="mb-3 lg:w-3/12">
+                                <Label title="Categoria" label="category_id" />
+                                <Select {...register('category_id')} id="category_id">
+                                    <option selected disabled>Selecione a categoria</option>
+                                    {categories?.map(category => (
+                                        <>
+                                        <option key={category.id} value={category.id}>{category.title}</option>
+                                        </>
+                                    ))}
+                                </Select>
+                                <ErrorMessage error={errors.category_id?.message} />
+                            </div>
 
                             <div className="mb-3 lg:w-5/12">
                                 <Label title="Titulo" label="title" />
                                 <Input type="text" {...register('title')} id="title" placeholder="Digite o titulo" />
                                 <ErrorMessage error={errors.title?.message} />
                             </div>
+
+
 
                             <div className="mb-3 lg:w-5/12">
                                 <Label title="Imagem" label="file" />
@@ -421,7 +453,7 @@ function Create() {
                         </div>
                     </FieldSet>
                     <div className="flex justify-end mt-5">
-                       <button type="submit" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-lg px-5 py-2.5 mr-2 mb-2">{id ? 'Atualizar': 'Cadastrar'}</button>
+                        <button type="submit" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-lg px-5 py-2.5 mr-2 mb-2">{id ? 'Atualizar' : 'Cadastrar'}</button>
                     </div>
 
                 </form>
