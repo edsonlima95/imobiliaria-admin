@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next"
 import { GetServerSideProps } from "next"
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useMemo, useRef, useState } from "react"
+import { useContext, useEffect, useMemo, useReducer, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Input } from "../../../components/Form/Input"
 import { Select } from "../../../components/Form/Select"
@@ -17,6 +17,7 @@ import BreadCrumb from "../../../components/Breadcrumb"
 import Label from "../../../components/Form/Label"
 import FieldSet from "../../../components/Form/FieldSet"
 import ErrorMessage from "../../../components/Message"
+import { Imobilreducer } from "../../../store/reducer"
 
 type Data = {
     id?: number,
@@ -61,7 +62,13 @@ type Category = {
     title: string,
 }
 
+
+
 function Create() {
+
+    const initialState = {
+        imobil: null
+    }
 
     const router = useRouter()
     const { params } = router.query
@@ -271,7 +278,7 @@ function Create() {
                                     <option selected disabled>Selecione a categoria</option>
                                     {categories?.map(category => (
                                         <>
-                                        <option key={category.id} value={category.id}>{category.title}</option>
+                                            <option key={category.id} value={category.id}>{category.title}</option>
                                         </>
                                     ))}
                                 </Select>

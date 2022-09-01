@@ -29,15 +29,16 @@ type PaginatePoops = {
     onPageLink: (link: number) => void
 }
 
+
 function Home() {
 
     const [imobils, setImobils] = useState<ImobilProps[]>()
     const [paginate, setPaginate] = useState({} as PaginatePoops)
 
+
     const user_id = getCookie("imobil.user_id")
 
     useEffect(() => {
-
 
         api.get(`/imobils?page=1&user_id=${user_id}`).then(response => {
             const { data, meta } = response.data.imobils

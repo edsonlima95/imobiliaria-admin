@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react"
 import { NavMenuContext } from "../contexts/NavMenuContext"
-import { List, Gear } from 'phosphor-react'
+import { List, Gear, Sun, SignOut } from 'phosphor-react'
 import { api } from "../services/axios"
-import { getCookie } from "cookies-next"
+import { getCookie, removeCookies } from "cookies-next"
 import { UserContext } from "../contexts/UserContext"
 import Aside from "../components/Aside"
 
@@ -37,15 +37,19 @@ function Layout({ children }: LayoutProps) {
         setProfile(user)
     }
 
+    function logout(){
+        removeCookies("")
+    }
+
     return (
 
         <>
             <Aside />
             <main className={`ml-auto ${isNavOpen ? 'w-[81%]' : 'w-full'} duration-700 `}>
                 <header className={`fixed ${isNavOpen ? 'w-[81%]' : 'w-full'} duration-700 px-5 py-3 shadow-lg z-20 bg-white`}>
-                    <div className="flex justify-between">
+                    <div className="flex items-center justify-between">
                         <List size={32} className="cursor-pointer" onClick={menuToggle} />
-                        <Gear size={32} />
+                        <SignOut size={20} />
                     </div>
                 </header>
                 <section className="relative top-14 z-10">
