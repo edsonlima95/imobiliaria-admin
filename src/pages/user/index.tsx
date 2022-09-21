@@ -53,8 +53,11 @@ function Profile() {
 
     return (
         <Layout>
-            <div className="flex justify-center p-5">
-                <form ref={form} onSubmit={handleSubmit(onSubmit)} className="bg-white mt-20 p-5 w-8/12 rounded my-4  flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center p-5">
+                    <div className="my-5 w-8/12">
+                        <h1 className="text-4xl text-gray-400 font-bold">Editar perfil</h1>
+                    </div>
+                <form ref={form} onSubmit={handleSubmit(onSubmit)} className="bg-white p-5 w-8/12 rounded my-4  flex flex-col items-center justify-center">
 
                     <div className="flex w-full gap-2">
                         <div className="mb-3 lg:w-full">

@@ -17,7 +17,6 @@ import BreadCrumb from "../../../components/Breadcrumb"
 import Label from "../../../components/Form/Label"
 import FieldSet from "../../../components/Form/FieldSet"
 import ErrorMessage from "../../../components/Message"
-import { Imobilreducer } from "../../../store/reducer"
 
 type Data = {
     id?: number,
@@ -66,11 +65,8 @@ type Category = {
 
 function Create() {
 
-    const initialState = {
-        imobil: null
-    }
-
     const router = useRouter()
+
     const { params } = router.query
     const form = useRef<HTMLFormElement>(null)
 
@@ -259,9 +255,10 @@ function Create() {
                     <input type="hidden" name="user_id" value={user?.id} />
                     <input type="hidden"  {...register("id")} />
 
+                    {/* DADOS DO IMOVEL */}
                     <FieldSet title="Dados do imóvel">
 
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
 
                             {id && (<div className="mb-3 lg:w-2/12">
                                 <Label title="Situação" label="status" />
@@ -306,7 +303,7 @@ function Create() {
                             <ErrorMessage error={errors.description?.message} />
                         </div>
 
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
                             <div className="mb-3 lg:w-6/12">
                                 <Label title="Tipo" label="type" />
                                 <Select {...register('type')} id="type">
@@ -339,9 +336,10 @@ function Create() {
 
                     </FieldSet>
 
+                    {/* ENDEREÇÕ DO IMOVEL */}
                     <FieldSet title="Endereço do imóvel">
 
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
                             <div className="mb-3 lg:w-5/12">
                                 <Label title="Endereço" label="address" />
                                 <Input type="text" {...register('address')} id="address" placeholder="Digite o endereço" />
@@ -359,7 +357,7 @@ function Create() {
                             </div>
                         </div>
 
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
                             <div className="mb-3 lg:w-4/12">
                                 <Label title="Bairro" label="neighborhood" />
                                 <Input type="text" {...register('neighborhood')} id="neighborhood" placeholder="Digite o bairro" />
@@ -381,7 +379,7 @@ function Create() {
                     </FieldSet>
 
                     <FieldSet title="Partições do imóvel">
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
                             <div className="mb-3 lg:w-3/12">
                                 <Label title="Area m²" label="area" />
                                 <Input type="number" min={1} {...register('area')} id="area" placeholder="Digite o numero" />
@@ -403,7 +401,7 @@ function Create() {
                                 <ErrorMessage error={errors.bathroom?.message} />
                             </div>
                         </div>
-                        <div className="w-full flex gap-2">
+                        <div className="w-full md:flex-row flex-col flex gap-2">
                             <div className="mb-3 lg:w-3/12">
                                 <Label title="Cozinha" label="kitchen" />
                                 <Input type="number" min={1} {...register('kitchen')} id="kitchen" placeholder="Digite o numero" />
@@ -428,7 +426,7 @@ function Create() {
                     </FieldSet>
 
                     <FieldSet title="Atributos do imóvel">
-                        <div className="flex justify-between">
+                        <div className="flex md:flex-row flex-col justify-between">
 
                             <div className="form-check form-check-inline">
                                 <CheckBox title="Psicina" {...register('pool')} label="pool" />
@@ -460,7 +458,7 @@ function Create() {
                         </div>
                     </FieldSet>
                     <div className="flex justify-end mt-5">
-                        <button type="submit" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-lg px-5 py-2.5 mr-2 mb-2">{id ? 'Atualizar' : 'Cadastrar'}</button>
+                        <button type="submit" className="focus:outline-none w-full md:w-auto text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-lg px-5 py-2.5 mr-2 mb-2">{id ? 'Atualizar' : 'Cadastrar'}</button>
                     </div>
 
                 </form>

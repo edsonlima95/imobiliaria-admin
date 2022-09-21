@@ -18,7 +18,7 @@ export const NavMenuContext = createContext({} as NavMenuContextProps)
 
 export function NavMenuProvider({ children }: NavMenuProviderProps) {
 
-    const [isNavOpen, setIsNavOpen] = useState(true)
+    const [isNavOpen, setIsNavOpen] = useState(false)
 
 
     function menuToggle() {

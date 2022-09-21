@@ -35,8 +35,8 @@ function Home() {
   return (
     <>
       <Layout>
-        <div className="flex justify-around p-5">
-          <div className="flex items-center lg:w-3/12 bg-white rounded shadow-md p-3">
+        <div className="flex flex-col md:flex-row justify-around p-5 text-center md:text-start">
+          <div className="mb-2 flex flex-col-reverse items-center lg:w-3/12 bg-white rounded shadow-md p-3">
             <div className="flex mx-5 flex-col">
               <p className="text-gray-600 text-xl font-bold ">Imóveis</p>
               <p className="text-gray-500">Cadastrados</p>
@@ -44,7 +44,7 @@ function Home() {
             <span className="text-gray-400 font-bold italic text-6xl">{total}</span>
           </div>
 
-          <div className="flex items-center lg:w-3/12 bg-white rounded shadow-md p-3">
+          <div className="mb-2 flex flex-col-reverse items-center lg:w-3/12 bg-white rounded shadow-md p-3">
             <div className="flex mx-5 flex-col">
               <p className="text-gray-600 text-xl font-bold ">Imóveis</p>
               <p className="text-gray-500">Alugados</p>
@@ -52,7 +52,7 @@ function Home() {
             <span className="text-gray-400 font-bold italic text-6xl">{rent}</span>
           </div>
 
-          <div className="flex items-center lg:w-3/12 bg-white rounded shadow-md p-3">
+          <div className="mb-2 flex  flex-col-reverse items-center lg:w-3/12 bg-white rounded shadow-md p-3">
             <div className="flex mx-5 flex-col">
               <p className="text-gray-600 text-xl font-bold ">Imóveis</p>
               <p className="text-gray-500">Vendidos</p>
@@ -61,7 +61,7 @@ function Home() {
           </div>
         </div>
         <div className="text-center">
-          <h1 className="text-[150px] italic font-bold text-gray-200">
+          <h1 className="text-[100px]  md:text-[150px] italic font-bold text-gray-200">
             Bem vindo
           </h1>
         </div>

@@ -1,6 +1,4 @@
-import { getCookie } from "cookies-next";
-import React, { createContext, useEffect, useState } from "react";
-import { api } from "../services/axios";
+import React, { createContext, useState } from "react";
 
 
 type UserProps = {
