@@ -135,9 +135,9 @@ function Home() {
                                     </td>
                                     <td className="py-4 px-6">
                                         {imobil.status === true ?
-                                            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Indisponível</span>
+                                            <span className="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Disponível</span>
                                             :
-                                            <span className="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Disponível</span>}
+                                            <span className="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Indisponível</span>}
                                     </td>
                                     <td>
                                         <Link href={`/imobil/create/${imobil.id}`}><a type="button" className="focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-0 font-medium rounded-full text-sm px-1.5 py-1.5 mr-2 mb-2"><Pencil size={20} /></a></Link>

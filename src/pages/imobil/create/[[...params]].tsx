@@ -76,8 +76,6 @@ function Create() {
     const id = params?.[0] ? params[0] : undefined
     const { handleSubmit, register, control, setError, setValue, reset, formState: { errors } } = useForm<Data>()
 
-
-
     useEffect(() => {
 
         getCategories()
@@ -263,8 +261,8 @@ function Create() {
                             {id && (<div className="mb-3 lg:w-2/12">
                                 <Label title="Situação" label="status" />
                                 <Select {...register('status')} id="status">
-                                    <option value={`${false}`} >Disponível</option>
-                                    <option value={`${true}`} >Não disponível</option>
+                                    <option value={`${false}`} >Não disponível</option>
+                                    <option value={`${true}`} >Disponível</option>
                                 </Select>
                                 <ErrorMessage error={errors.type?.message} />
                             </div>)}
