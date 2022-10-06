@@ -5,7 +5,7 @@ Painel admin feito para cadastrar imóveis para o projeto site imobiliario feito
 ## Stack utilizada
 
 **Front-end:** NextJs e TailwindCSS
-**Back-end:** NextJs e TailwindCSS
+**Back-end:** AdonisJs
 
 ## Funcionalidades
 - Cadastrar, Atualizar e Deletar imóveis.
